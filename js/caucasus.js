@@ -40,45 +40,30 @@ var fb = _DEBUG && 'undefined' != typeof(console) ? console : {
 };
 
 //
-var Caucasus = { // Main namespase of Caucasus
-    // Core namespaces
-    Ajax: { Busy: {} },
-    Core: {},
-    
-    Actions: {}, // Actions. More widly used funcs
-    Helpers: {},
-    HTML: {
-        Build: {}
-    },
-    Filters: {},
-    Env: {
-        lang: GLOBAL.lang
-    },
-    i18n: {},
-    View:{
-        HTML: {
-            Build: {}
-        }
-    },
-    Cache: {
-        clear: function(){} // TODO: stub method, will be used later
-    },
-    Ref: {},
-    Tmp: {},
-    Thread: {
-        run: function(callback, delay){
-            setTimeout(function(){
-                callback && callback();
-            }, delay * 10);
-        }
-    },
-    Settings: {},
-    Templates: {
-        Templator: null,
-        Tpl: {},
-        _indexes: {}
-    }
-};
+// Main namespase of Caucasus
+//
+var Caucasus = {};
+
+//
+// Top level sub-namespace objects
+//
+Caucasus.Actions    = {};
+Caucasus.Ajax       = {};
+Caucasus.Cache      = {};
+Caucasus.Core       = {};
+Caucasus.ENV        = {};
+Caucasus.Filters    = {};
+Caucasus.Helpers    = {};
+Caucasus.Html       = {};
+Caucasus.i18n       = {};
+Caucasus.Ref        = {};
+Caucasus.Settings   = {};
+Caucasus.Templates  = {};
+Caucasus.Tmp        = {};
+Caucasus.Thread     = {};
+Caucasus.Utils      = {};
+Caucasus.Widgets    = {};
+
 
 // Internals
 Array.prototype.set = function(key, value){
@@ -147,3 +132,42 @@ String.prototype.trim = function()
 }
 
 window[CAUCASUS_SHORTCUT] = Caucasus;
+
+
+//
+// CAUCASUS INTERNALS
+//
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - UTILS - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+/**
+ * Dynamically load and embed custom javascript file to current page
+ * 
+ * @param path  path to javascript file
+ */
+Caucasus.Utils.load_script = function(path) {
+    var head= document.getElementsByTagName('head')[0];
+    var script= document.createElement('script');
+    script.type= 'text/javascript';
+    script.src= path;
+    head.appendChild(script);
+}
+
+/**
+ * Unload javascriptscript file from current page
+ * 
+ * @param path  path to javascript file
+ */
+Caucasus.Utils.unload_script = function(path) {
+    var scripts = document.getElementsByTagName('script');
+    for (var i = 0; i < scripts.length; i++) {
+        var script = scripts[i];
+        if (script.src.search(path) != -1) {
+            document.getElementsByTagName('head')[0].removeChild(script);
+        }
+    }
+}
+
+
