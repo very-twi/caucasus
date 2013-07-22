@@ -139,6 +139,35 @@ window[CAUCASUS_SHORTCUT] = Caucasus;
 //
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - HELPERS - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+/**
+ * Format number in following formats: xxx,xxx.xx or xxxxxx.xx
+ * 
+ * @param number        Number that will be formatted
+ * @param no_commas     ignore thouthands separated by commas flag
+ */
+App.Helpers.formatNumber = function(number, no_commas){
+    no_commas = no_commas || false;
+    number = number.toString().replace(/,/g, '');
+       
+    var nStr = parseFloat(number).toFixed(2);
+    nStr = nStr.toString();
+    nStr += '';
+    x = nStr.split('.');
+    x1 = x[0];
+    x2 = x.length > 1 ? '.' + x[1] : '';
+    if(!no_commas){
+        var rgx = /(\d+)(\d{3})/;
+        while (rgx.test(x1)) {
+            x1 = x1.replace(rgx, '$1' + ',' + '$2');
+        }
+    }
+    return x1 + x2;
+}
+
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - UTILS - - - - - - - - - - - - - - - - - -
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
