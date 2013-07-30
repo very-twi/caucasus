@@ -1,4 +1,8 @@
 /**
+ * Caucasus is fully powered high level basic application structure
+ * shipped with usefull methods, utils, objects, widgets, libraries and 
+ * ui elements.
+ * 
  * @author: Malishev Dmitry <dima.malishev@gmail.com>
  */
 var _DEBUG = true;
@@ -8,6 +12,13 @@ var _DEBUG_LEVEL = 'ALL';
 // Use shortcat for accessing Caucasus object
 // it can be set to any variable that is not conflicting on page
 var CAUCASUS_SHORTCUT = 'App';
+
+//
+//  SYSTEM SETTINGS
+//
+SYSTEM = {};
+SYSTEM.PATH = '/';
+SYSTEM.USE_TEMPLATOR = true; // use build in templator or not. see templates.js
 
 //
 //  GLOBAL SETTINGS
@@ -64,6 +75,15 @@ Caucasus.Thread     = {};
 Caucasus.Utils      = {};
 Caucasus.Widgets    = {};
 
+//
+//
+// Pre run method
+Caucasus.pre_run = function() {
+    // load necessary libraries
+    if (SYSTEM.USE_TEMPLATOR == true) {
+        Caucasus.Utils.load_script(SYSTEM.PATH + 'templates.js')
+    }
+}
 
 // Internals
 Array.prototype.set = function(key, value){
@@ -199,4 +219,9 @@ Caucasus.Utils.unload_script = function(path) {
     }
 }
 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+// - - - - - - - - - - - - - - CAUCASUS PRE RUN - - - - - - - - - - - - 
+// - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
+Caucasus.pre_run();
 
