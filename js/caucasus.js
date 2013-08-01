@@ -3,6 +3,8 @@
  * shipped with usefull methods, utils, objects, widgets, libraries and 
  * ui elements.
  * 
+ * Uses jQuery framework
+ * 
  * @author: Malishev Dmitry <dima.malishev@gmail.com>
  */
 var _DEBUG = true;
@@ -116,6 +118,7 @@ Caucasus.Ajax.request = function(method, data, callback, onError){
 
 /**
  * Timer used for profiling
+ * TODO: move it under Caucasus namespace
  */
 var timer = {};
 timer.start = function()
@@ -168,7 +171,7 @@ window[CAUCASUS_SHORTCUT] = Caucasus;
  * @param number        Number that will be formatted
  * @param no_commas     ignore thouthands separated by commas flag
  */
-App.Helpers.formatNumber = function(number, no_commas){
+Caucasus.Helpers.formatNumber = function(number, no_commas){
     no_commas = no_commas || false;
     number = number.toString().replace(/,/g, '');
        
@@ -185,6 +188,32 @@ App.Helpers.formatNumber = function(number, no_commas){
         }
     }
     return x1 + x2;
+}
+
+Caucasus.Helpers.flatten_json = function(data, prefix){
+    var keys   = jQuery.keys(data);
+    var result = {};
+
+    prefix || (prefix = '');
+
+    if(keys.length)
+    {
+        for(var i=0, cnt=keys.length; i<cnt; i++)
+        {
+            var value = data[keys[i]];
+            switch(typeof(value))
+            {
+                case 'function': break;
+                case 'object'  : result = jQuery.extend(result, App.Core.flatten_json(value, prefix + '[' + keys[i] + ']')); break;
+                default        : result[prefix + '[' + keys[i] + ']'] = value;
+            }
+        }
+        return result;
+    }
+    else
+    {
+        return false;
+    }
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
